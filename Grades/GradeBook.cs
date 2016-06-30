@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Grades
 {
-    class GradeBook
+    // the default access modifier is "internal"
+    public class GradeBook
     {
         #region Fields
         List<float> grades; // private by default
