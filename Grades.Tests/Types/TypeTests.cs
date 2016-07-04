@@ -12,7 +12,8 @@ namespace Grades.Tests.Types
     [TestFixture]
     class TypeTests
     {
-        [Test] UsingArrays()
+        [Test]
+        public void UsingArrays()
         {
             float[] grades;
             grades = new float[3];
