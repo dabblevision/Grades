@@ -11,9 +11,10 @@ namespace Grades
     {
         #region Fields
         List<float> grades; // private by default
+        private string name = "Empty";
         public static float MinimumGrade = 0;
         public static float MaximumGrade = 100;
-        public string Name;
+        public event NameChangedDelegate NameChanged;
         #endregion
 
         #region Constructors
@@ -24,7 +25,24 @@ namespace Grades
         #endregion
 
         #region Properties
-        
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                if (!String.IsNullOrEmpty(value))
+                {
+                    if (name != value)
+                    {
+                        NameChangedEventArgs args = new NameChangedEventArgs();
+                        args.ExistingName = name;
+                        args.NewName = value;
+                        NameChanged(this, args);
+                    }
+                    name = value;
+                }
+            }
+        }
         #endregion
 
         #region Methods
