@@ -23,6 +23,10 @@ namespace Grades
             Console.WriteLine(stats.AverageGrade);
             Console.WriteLine(stats.LowestGrade);
             Console.ReadLine();
+
+
+
+
         }
     }
 }

@@ -13,6 +13,7 @@ namespace Grades
         List<float> grades; // private by default
         public static float MinimumGrade = 0;
         public static float MaximumGrade = 100;
+        public string Name;
         #endregion
 
         #region Constructors
