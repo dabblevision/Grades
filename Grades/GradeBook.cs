@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,19 +9,18 @@ using System.Threading.Tasks;
 namespace Grades
 {
     // the default access modifier is "internal"
-    public class GradeBook
+    public class GradeBook : GradeTracker
     {
         #region Fields
-        List<float> grades; // private by default
-        private string name = "Empty";
+        protected List<float> grades; // only code in this class or a derived class can access this
         public static float MinimumGrade = 0;
         public static float MaximumGrade = 100;
-        public event NameChangedDelegate NameChanged;
         #endregion
 
         #region Constructors
         public GradeBook()
         {
+            base.name = "Empty";
             grades = new List<float>();
         }
 
@@ -28,35 +28,18 @@ namespace Grades
         #endregion
 
         #region Properties
-        public string Name
-        {
-            get { return name; }
-            set
-            {
-                if (String.IsNullOrEmpty(value))
-                {
-                    throw new ArgumentException("Name cannot be null or empty.");
-                }
-                if (name != value && NameChanged != null)
-                {
-                    NameChangedEventArgs args = new NameChangedEventArgs();
-                    args.ExistingName = name;
-                    args.NewName = value;
-                    NameChanged(this, args);                            
-                }
-                name = value;
-            }
-        }
+        
         #endregion
 
         #region Methods
-        public void AddGrade(float grade)
+        public override void AddGrade(float grade)
         {
             grades.Add(grade);
         }
 
-        public GradeStatistics ComputeStatistics()
+        public override GradeStatistics ComputeStatistics()
         {
+            Console.WriteLine("GradeBook::ComputeStatics");
             GradeStatistics stats = new GradeStatistics();
             float sum = 0;
 
@@ -71,12 +54,17 @@ namespace Grades
             return stats;
         }
 
-        public void WriteGrades(TextWriter destination)
+        public override void WriteGrades(TextWriter destination)
         {
             for (int i = 0; i < grades.Count; i++)
             {
                 destination.WriteLine(grades[i]);
             }
+        }
+
+        public override IEnumerator GetEnumerator()
+        {
+            return grades.GetEnumerator();
         }
 
         #endregion
